@@ -12,9 +12,9 @@ from Screenshot import Screenshot
 class ChromeDriver:
     import time
 
-    def __init__(self, headless=False):
+    def __init__(self):
         self.options = Options()
-        self.options.add_argument('--headless')
+        # self.options.add_argument('--headless')
         self.options.add_argument("--start-maximized")
         self.driver = webdriver.Chrome(options=self.options)
 
@@ -40,9 +40,8 @@ def create_folder():
 
 
 def take_screenshot(name):
-    username = os.environ['USERNAME']
     file_name = now + "-" + name + ".png"
-    chrome.driver.save_screenshot(r'C:\Users\{}\PycharmProjects\SMSAutomation\{}/{}'.format(username, folder_name, file_name))
+    chrome.driver.save_screenshot(r'C:\Users\HP\PycharmProjects\SMSAutomation\{0}\{1}'.format(folder_name, file_name))
 
 
 class Pega:
