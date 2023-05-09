@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from DatabaseBaglantisi import OracleDB
-from Screenshot import Screenshot
 
 
 class ChromeDriver:
@@ -37,11 +36,13 @@ def create_folder():
     if not os.path.exists(folder_name):
         os.mkdir(folder_name)
     folder_path = os.path.abspath(folder_name)
+    return folder_path
 
 
 def take_screenshot(name):
+    username = os.environ['USERNAME']
     file_name = now + "-" + name + ".png"
-    chrome.driver.save_screenshot(r'C:\Users\HP\PycharmProjects\SMSAutomation\{0}\{1}'.format(folder_name, file_name))
+    chrome.driver.save_screenshot(r'C:\Users\{0}\PycharmProjects\SMSAutomation2\{1}\{2}'.format(username,folder_name, file_name))
 
 
 class Pega:
