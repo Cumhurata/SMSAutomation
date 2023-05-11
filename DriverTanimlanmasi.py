@@ -42,7 +42,8 @@ def create_folder():
 def take_screenshot(name):
     username = os.environ['USERNAME']
     file_name = now + "-" + name + ".png"
-    chrome.driver.save_screenshot(r'C:\Users\{0}\PycharmProjects\SMSAutomation2\{1}\{2}'.format(username,folder_name, file_name))
+    chrome.driver.save_screenshot(
+        r'C:\Users\{0}\PycharmProjects\SMSAutomation\{1}\{2}'.format(username, folder_name, file_name))
 
 
 class Pega:
@@ -266,9 +267,90 @@ class STF:
         self.click_refresh_button_stf()
 
 
+class DB_CHECK:
+    @staticmethod
+    def simplify_text(text):
+        text = str(text).replace("(", "")
+        text = str(text).replace(")", "")
+        text = str(text).replace("'", "")
+        text = str(text).replace(",", "")
+        text = str(text).replace("[", "")
+        text = str(text).replace("]", "")
+        return text
+
+    @staticmethod
+    def db_check_operations(batch_output_data):
+        print(batch_output_data[0][0])
+        condition = "CASE_ID = " + "'" + str(batch_output_data[0][0]) + "'"
+        print(condition)
+
+        # Check for mgts_content_type
+        mgts_content_type = database.select("PBO.BATCH_OUTPUT_STATUS", "MGTS_DELIVERY_JOB_TYPE", condition)
+        mgts_content_type = DB_CHECK.simplify_text(mgts_content_type)
+        print(mgts_content_type)
+
+        # Check for MgtsSmsBudgetUnit
+        mgts_sms_budget_unit = database.select("PBO.BATCH_OUTPUT_STATUS", "BUDGET_DEPT_ID", condition)
+        mgts_sms_budget_unit = DB_CHECK.simplify_text(mgts_sms_budget_unit)
+        print(mgts_sms_budget_unit)
+
+        # Check for IysId
+        iys_id = database.select("PBO.BATCH_OUTPUT_STATUS", "CMS_REF_ID", condition)
+        iys_id = DB_CHECK.simplify_text(iys_id)
+        print(iys_id)
+
+        # Check for ToMobileNumber
+        to_mobile_number = database.select("PBO.BATCH_OUTPUT", "MOBILE_PHONE_NO", condition)
+        to_mobile_number = DB_CHECK.simplify_text(to_mobile_number)
+        print(to_mobile_number)
+
+        # Check for SMSContent
+        sms_content = database.select("PBO.BATCH_OUTPUT_STATUS", "DELIVERY_CONTENT", condition)
+        sms_content = DB_CHECK.simplify_text(sms_content)
+        print(sms_content)
+
+        # Check for FromAlias
+        from_alias = database.select("PBO.BATCH_OUTPUT_STATUS", "SMS_ALIAS", condition)
+        from_alias = DB_CHECK.simplify_text(from_alias)
+        print(from_alias)
+
+        # Check for Seed_List
+        seed_list = database.select("PBO.BATCH_OUTPUT_STATUS", "SEED_LIST", condition)
+        seed_list = DB_CHECK.simplify_text(seed_list)
+        print(seed_list)
+
+        # Check for mgts_delivery_start_hr DELIVERY HOUR
+        mgts_delivery_start_hr = database.select("PBO.BATCH_OUTPUT_STATUS", "mgts_delivery_start_hr", condition)
+        mgts_delivery_start_hr = DB_CHECK.simplify_text(mgts_delivery_start_hr)
+        print(mgts_delivery_start_hr)
+
+        # Check for ContentLanguage
+        content_language = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
+        content_language = DB_CHECK.simplify_text(content_language)
+        print(content_language)
+
+        # Check for Delivery Content
+        delivery_content = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
+        delivery_content = DB_CHECK.simplify_text(delivery_content)
+        print(delivery_content)
+
+        # Check for Valid Days
+        valid_days = database.select("PBO.BATCH_OUTPUT_STATUS", "VALID_DAYS", condition)
+        valid_days = DB_CHECK.simplify_text(valid_days)
+        print(valid_days)
+
+        # Check cmdCampaignID
+        ih_cust_id = "'" + batch_output_data[0][0] + "'"
+        condition_ih = "CUSTOMERID = "+ ih_cust_id
+        condition_ih = database.select("INTERACTION_HISTORY_V", "*", condition_ih)
+        condition_ih = DB_CHECK.simplify_text(condition_ih)
+        print(condition_ih)
+
+
 pega = Pega()
 stf = STF()
 ui = UI()
+db_checks = DB_CHECK()
 
 product_offer_outcome = [
     [{"bucket_name": "SMS-Phase1"},
@@ -286,7 +368,7 @@ def return_cust_id_from_prefix(prefix):
     return customer_id
 
 
-def suppression_check():
+def sms_check_operations():
     # Creating Datas
     for b_outcome in product_offer_outcome:
         bucket_name_tmp = str(b_outcome[0]['bucket_name'])
@@ -303,8 +385,7 @@ def suppression_check():
 
     for b_outcome in product_offer_outcome:
         customer_id = b_outcome[3]['CustomerID']
-        condition_db = "CUSTOMERID = '" + customer_id + "'"
-        print(database.select("INTERACTION_HISTORY_V", "*", condition_db))
+        database_check_sms(customer_id)
 
 
 def change_web_window(window):
@@ -330,6 +411,12 @@ def running_ui():
     ui.running_batch()
 
 
+def database_check_sms(customer_id):
+    condition = "MUSTERI_ID = " + customer_id
+    batch_output_data = database.select("PBO.BATCH_OUTPUT", "*", condition)
+    DB_CHECK.db_check_operations(batch_output_data)
+
+
 def main_operation():
-    suppression_check()
+    sms_check_operations()
     database.close_connection()
