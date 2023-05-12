@@ -85,7 +85,7 @@ class UI:
     def click_run_button_navigate():
         # Run
         chrome.driver.implicitly_wait(10)
-        chrome.driver.find_element(By.LINK_TEXT, 'Çalıştır').click()
+        chrome.driver.find_element(By.LINK_TEXT, 'Run').click()
         chrome.time.sleep(5)
         take_screenshot('NavigateRunButton')
 
