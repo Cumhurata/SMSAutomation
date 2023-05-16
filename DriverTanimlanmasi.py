@@ -279,72 +279,149 @@ class DB_CHECK:
         return text
 
     @staticmethod
-    def db_check_operations(batch_output_data):
-        print(batch_output_data[0][0])
+    def db_check_operations(batch_output_data, b_outcome_temp):
         condition = "CASE_ID = " + "'" + str(batch_output_data[0][0]) + "'"
         print(condition)
-
+        print(b_outcome_temp)
         # Check for mgts_content_type
         mgts_content_type = database.select("PBO.BATCH_OUTPUT_STATUS", "MGTS_DELIVERY_JOB_TYPE", condition)
         mgts_content_type = DB_CHECK.simplify_text(mgts_content_type)
         print(mgts_content_type)
+        print(str(b_outcome_temp[4]['mgts_content_type']))
+        if str(b_outcome_temp[4]['mgts_content_type']) != "":
+            if str(b_outcome_temp[4]['mgts_content_type']) == mgts_content_type:
+                print("\nMGTS CONTENT TYPE IS MATCHED! PASSED!\n")
+            else:
+                print("\nMGTS CONTENT TYPE IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nMGTS CONTENT TYPE IS NULL\n")
 
         # Check for MgtsSmsBudgetUnit
         mgts_sms_budget_unit = database.select("PBO.BATCH_OUTPUT_STATUS", "BUDGET_DEPT_ID", condition)
         mgts_sms_budget_unit = DB_CHECK.simplify_text(mgts_sms_budget_unit)
         print(mgts_sms_budget_unit)
+        if str(b_outcome_temp[5]['MgtsSmsBudgetUnit']) != "":
+            if str(b_outcome_temp[5]['MgtsSmsBudgetUnit']) == mgts_sms_budget_unit:
+                print("\nMGTS SMS BUDGET UNIT IS MATCHED! PASSED!\n")
+            else:
+                print("\nMGTS SMS BUDGET UNIT IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nMGTS SMS BUDGET UNIT IS NULL\n")
 
         # Check for IysId
         iys_id = database.select("PBO.BATCH_OUTPUT_STATUS", "CMS_REF_ID", condition)
         iys_id = DB_CHECK.simplify_text(iys_id)
         print(iys_id)
+        print(str(b_outcome_temp[6]['IysId']))
+        if str(b_outcome_temp[6]['IysId']) != "":
+            if str(b_outcome_temp[6]['IysId']) == iys_id:
+                print("\nIYS ID IS MATCHED! PASSED!\n")
+            else:
+                print("\nIYS ID IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nIYS ID IS NULL\n")
 
         # Check for ToMobileNumber
         to_mobile_number = database.select("PBO.BATCH_OUTPUT", "MOBILE_PHONE_NO", condition)
         to_mobile_number = DB_CHECK.simplify_text(to_mobile_number)
         print(to_mobile_number)
+        print(str(b_outcome_temp[7]['ToMobileNumber']))
+        if str(b_outcome_temp[7]['ToMobileNumber']) != "":
+            if str(b_outcome_temp[7]['ToMobileNumber']) == to_mobile_number:
+                print("\nMOBILE NUMBER IS MATCHED! PASSED!\n")
+            else:
+                print("\nMOBILE NUMBER  IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nMOBILE NUMBER IS NULL\n")
 
         # Check for SMSContent
         sms_content = database.select("PBO.BATCH_OUTPUT_STATUS", "DELIVERY_CONTENT", condition)
         sms_content = DB_CHECK.simplify_text(sms_content)
         print(sms_content)
+        sms_content = sms_content.replace('"','')
+        print(str(b_outcome_temp[8]['SMSContent']))
+        if str(b_outcome_temp[8]['SMSContent']) != "":
+            if str(b_outcome_temp[8]['SMSContent']) == sms_content:
+                print("\nSMS CONTENT IS MATCHED! PASSED!\n")
+            else:
+                print("\nSMS CONTENT IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nSMS CONTENT IS NULL\n")
 
         # Check for FromAlias
         from_alias = database.select("PBO.BATCH_OUTPUT_STATUS", "SMS_ALIAS", condition)
         from_alias = DB_CHECK.simplify_text(from_alias)
         print(from_alias)
+        print(str(b_outcome_temp[9]['FromAlias']))
+        if str(b_outcome_temp[9]['FromAlias']) != "":
+            if str(b_outcome_temp[9]['FromAlias']) == from_alias:
+                print("\nFROM ALIAS IS MATCHED! PASSED!\n")
+            else:
+                print("\nFROM ALIAS IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nFROM ALIAS IS NULL\n")
 
         # Check for Seed_List
         seed_list = database.select("PBO.BATCH_OUTPUT_STATUS", "SEED_LIST", condition)
         seed_list = DB_CHECK.simplify_text(seed_list)
         print(seed_list)
+        print(str(b_outcome_temp[10]['Seed_List']))
+        if str(b_outcome_temp[10]['Seed_List']) != "":
+            if str(b_outcome_temp[10]['Seed_List']) == seed_list:
+                print("\nSEED LIST IS MATCHED! PASSED!\n")
+            else:
+                print("\nSEED LIST IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nSEED LIST IS NULL\n")
 
         # Check for mgts_delivery_start_hr DELIVERY HOUR
         mgts_delivery_start_hr = database.select("PBO.BATCH_OUTPUT_STATUS", "mgts_delivery_start_hr", condition)
         mgts_delivery_start_hr = DB_CHECK.simplify_text(mgts_delivery_start_hr)
         print(mgts_delivery_start_hr)
+        print(str(b_outcome_temp[11]['mgts_delivery_start_hr']))
+        if str(b_outcome_temp[11]['mgts_delivery_start_hr']) != "":
+            if str(b_outcome_temp[11]['mgts_delivery_start_hr']) == mgts_delivery_start_hr:
+                print("\nDELIVERY HOUR IS MATCHED! PASSED!\n")
+            else:
+                print("\nDELIVERY HOUR IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nDELIVERY HOUR IS NULL\n")
 
         # Check for ContentLanguage
         content_language = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
         content_language = DB_CHECK.simplify_text(content_language)
         print(content_language)
-
-        # Check for Delivery Content
-        delivery_content = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
-        delivery_content = DB_CHECK.simplify_text(delivery_content)
-        print(delivery_content)
+        print(str(batch_output_data[12]["content_language"]))
+        if str(batch_output_data[12]["content_language"]) != "":
+            if str(batch_output_data[12]["content_language"]) == content_language:
+                print("\nCONTENT LANGUAGE IS MATCHED! PASSED!\n")
+            else:
+                print("\nCONTENT LANGUAGE IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nCONTENT LANGUAGE IS NULL\n")
 
         # Check for Valid Days
         valid_days = database.select("PBO.BATCH_OUTPUT_STATUS", "VALID_DAYS", condition)
         valid_days = DB_CHECK.simplify_text(valid_days)
         print(valid_days)
+        print(str(batch_output_data[13]["VALID_DAYS"]))
+        if str(batch_output_data[13]["VALID_DAYS"]) != "":
+            if str(batch_output_data[13]["VALID_DAYS"]) == valid_days:
+                print("\nVALID DAYS IS MATCHED! PASSED!\n")
+            else:
+                print("\nVALID DAYS IS NOT MATCHED! FAILED!\n")
+        else:
+            print("\nVALID DAYS IS NULL\n")
 
         # Check cmdCampaignID
-        ih_cust_id = "'" + batch_output_data[0][0] + "'"
+        ih_cust_id = "'" + str(batch_output_data[0][3]) + "'"
         condition_ih = "CUSTOMERID = "+ ih_cust_id
         condition_ih = database.select("INTERACTION_HISTORY_V", "*", condition_ih)
-        condition_ih = DB_CHECK.simplify_text(condition_ih)
         print(condition_ih)
+        if str(batch_output_data[0][13] != ""):
+            print("\nIH RECORD EXIST! PASSED!\n")
+        else:
+            print("\nIH RECORD IS NULL\n")
 
 
 pega = Pega()
@@ -355,7 +432,13 @@ db_checks = DB_CHECK()
 product_offer_outcome = [
     [{"bucket_name": "SMS-Phase1"},
      {"graph_name": "TicariKartOFOKamp_SMS"},
-     {"graph_prefix": "10050"}, {"CustomerID": ""}
+     {"graph_prefix": "10050"}, {"CustomerID": ""},
+     {"mgts_content_type": "881"}, {"MgtsSmsBudgetUnit": "9089"},
+     {"IysId": "None"}, {"ToMobileNumber": "5555555555"},
+     {"SMSContent": "Faturalarinizin son odeme gununu dusunmeyin! Ticari kredi kartinizla Akbank Mobilden kolayca odeme talimati verin faturalariniz zamaninda odensin. Akbank Mobil : akbank.com/fatura-talimati Detayli bilgi: 444 25 25 Ucretsiz sms almak istemiyorsaniz smsistemiyorum yazip 8885e gonderebilirsiniz. Mersis:0015001526400497"},
+     {"FromAlias": "AKBANK"}, {"Seed_List": "90034975|90031738|55552|55961"},
+     {"mgts_delivery_start_hr": "10:00"}, {"content_language": "0"},
+     {"VALID_DAYS": "2"}
      ]]
 
 
@@ -380,12 +463,13 @@ def sms_check_operations():
         primary_customer_id_tmp = return_cust_id_from_prefix(prefix1_tmp)
         b_outcome[3]['CustomerID'] = primary_customer_id_tmp
         print(primary_customer_id_tmp)
+
     # Running Batch
     running_ui()
 
     for b_outcome in product_offer_outcome:
         customer_id = b_outcome[3]['CustomerID']
-        database_check_sms(customer_id)
+        database_check_sms(customer_id, b_outcome)
 
 
 def change_web_window(window):
@@ -411,10 +495,10 @@ def running_ui():
     ui.running_batch()
 
 
-def database_check_sms(customer_id):
+def database_check_sms(customer_id, b_outcome_temp):
     condition = "MUSTERI_ID = " + customer_id
     batch_output_data = database.select("PBO.BATCH_OUTPUT", "*", condition)
-    DB_CHECK.db_check_operations(batch_output_data)
+    DB_CHECK.db_check_operations(batch_output_data, b_outcome_temp)
 
 
 def main_operation():
