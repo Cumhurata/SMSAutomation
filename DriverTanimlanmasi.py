@@ -392,9 +392,9 @@ class DB_CHECK:
         content_language = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
         content_language = DB_CHECK.simplify_text(content_language)
         print(content_language)
-        print(str(batch_output_data[12]["content_language"]))
-        if str(batch_output_data[12]["content_language"]) != "":
-            if str(batch_output_data[12]["content_language"]) == content_language:
+        print(str(b_outcome_temp[12]["content_language"]))
+        if str(b_outcome_temp[12]["content_language"]) != "":
+            if str(b_outcome_temp[12]["content_language"]) == content_language:
                 print("\nCONTENT LANGUAGE IS MATCHED! PASSED!\n")
             else:
                 print("\nCONTENT LANGUAGE IS NOT MATCHED! FAILED!\n")
