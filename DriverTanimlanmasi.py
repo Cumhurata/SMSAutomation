@@ -404,9 +404,9 @@ class DB_CHECK:
         valid_days = database.select("PBO.BATCH_OUTPUT_STATUS", "VALID_DAYS", condition)
         valid_days = DB_CHECK.simplify_text(valid_days)
         print(valid_days)
-        print(str(batch_output_data[13]["VALID_DAYS"]))
-        if str(batch_output_data[13]["VALID_DAYS"]) != "":
-            if str(batch_output_data[13]["VALID_DAYS"]) == valid_days:
+        print(str(b_outcome_temp[13]["VALID_DAYS"]))
+        if str(b_outcome_temp[13]["VALID_DAYS"]) != "":
+            if str(b_outcome_temp[13]["VALID_DAYS"]) == valid_days:
                 print("\nVALID DAYS IS MATCHED! PASSED!\n")
             else:
                 print("\nVALID DAYS IS NOT MATCHED! FAILED!\n")
