@@ -374,6 +374,7 @@ class DB_CHECK:
         else:
             print("\nSEED LIST IS NULL\n")
 
+
         # Check for mgts_delivery_start_hr DELIVERY HOUR
         mgts_delivery_start_hr = database.select("PBO.BATCH_OUTPUT_STATUS", "mgts_delivery_start_hr", condition)
         mgts_delivery_start_hr = DB_CHECK.simplify_text(mgts_delivery_start_hr)
