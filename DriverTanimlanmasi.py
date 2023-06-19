@@ -60,7 +60,7 @@ class Pega:
 
         # Fill in the username and password fields
         chrome.driver.find_element(By.ID, "txtUserID").send_keys("caglar.sinik@adqura.com")
-        chrome.driver.find_element(By.ID, "txtPassword").send_keys("Akbank2028*")
+        chrome.driver.find_element(By.ID, "txtPassword").send_keys("Akbank2029*")
         take_screenshot('LoginPage')
 
         # Click the login button
@@ -86,7 +86,7 @@ class UI:
     def click_run_button_navigate():
         # Run
         chrome.driver.implicitly_wait(10)
-        chrome.driver.find_element(By.LINK_TEXT, 'Run').click()
+        chrome.driver.find_element(By.LINK_TEXT, 'Çalıştır').click()
         chrome.time.sleep(5)
         take_screenshot('NavigateRunButton')
 
@@ -417,9 +417,9 @@ class DB_CHECK:
         # Check cmdCampaignID
         ih_cust_id = "'" + str(batch_output_data[0][3]) + "'"
         condition_ih = "CUSTOMERID = "+ ih_cust_id
-        condition_ih = database.select("INTERACTION_HISTORY_V", "*", condition_ih)
-        print(condition_ih)
-        if str(batch_output_data[0][13] != ""):
+        ih_result = database.select("INTERACTION_HISTORY_V", "*", condition_ih)
+        print(ih_result)
+        if str(ih_result).__contains__(str(batch_output_data[0][3])):
             print("\nIH RECORD EXIST! PASSED!\n")
         else:
             print("\nIH RECORD IS NULL\n")
