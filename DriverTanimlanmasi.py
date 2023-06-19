@@ -280,13 +280,11 @@ class DB_CHECK:
 
     @staticmethod
     def db_check_operations(batch_output_data, b_outcome_temp):
-        condition = "CASE_ID = " + "'" + str(batch_output_data[0][0]) + "'"
-        print(condition)
-        print(b_outcome_temp)
+        condition = "CASE_ID = " + "'" + str(batch_output_data[0][0]) + "' AND TREATMENT_NAME = '" + str(b_outcome_temp[14]['Treatment_Name']) + "'"
         # Check for mgts_content_type
         mgts_content_type = database.select("PBO.BATCH_OUTPUT_STATUS", "MGTS_DELIVERY_JOB_TYPE", condition)
         mgts_content_type = DB_CHECK.simplify_text(mgts_content_type)
-        print(mgts_content_type)
+        print("MGTS from DB: {}".format(mgts_content_type))
         print(str(b_outcome_temp[4]['mgts_content_type']))
         if str(b_outcome_temp[4]['mgts_content_type']) != "":
             if str(b_outcome_temp[4]['mgts_content_type']) == mgts_content_type:
@@ -299,7 +297,8 @@ class DB_CHECK:
         # Check for MgtsSmsBudgetUnit
         mgts_sms_budget_unit = database.select("PBO.BATCH_OUTPUT_STATUS", "BUDGET_DEPT_ID", condition)
         mgts_sms_budget_unit = DB_CHECK.simplify_text(mgts_sms_budget_unit)
-        print(mgts_sms_budget_unit)
+        print("MgtsSmsBudgetUnit from DB: {}".format(mgts_sms_budget_unit))
+        print(str(b_outcome_temp[5]['MgtsSmsBudgetUnit']))
         if str(b_outcome_temp[5]['MgtsSmsBudgetUnit']) != "":
             if str(b_outcome_temp[5]['MgtsSmsBudgetUnit']) == mgts_sms_budget_unit:
                 print("\nMGTS SMS BUDGET UNIT IS MATCHED! PASSED!\n")
@@ -311,7 +310,7 @@ class DB_CHECK:
         # Check for IysId
         iys_id = database.select("PBO.BATCH_OUTPUT_STATUS", "CMS_REF_ID", condition)
         iys_id = DB_CHECK.simplify_text(iys_id)
-        print(iys_id)
+        print("iys_id from DB: {}".format(iys_id))
         print(str(b_outcome_temp[6]['IysId']))
         if str(b_outcome_temp[6]['IysId']) != "":
             if str(b_outcome_temp[6]['IysId']) == iys_id:
@@ -324,7 +323,7 @@ class DB_CHECK:
         # Check for ToMobileNumber
         to_mobile_number = database.select("PBO.BATCH_OUTPUT", "MOBILE_PHONE_NO", condition)
         to_mobile_number = DB_CHECK.simplify_text(to_mobile_number)
-        print(to_mobile_number)
+        print("to_mobile_number from DB: {}".format(to_mobile_number))
         print(str(b_outcome_temp[7]['ToMobileNumber']))
         if str(b_outcome_temp[7]['ToMobileNumber']) != "":
             if str(b_outcome_temp[7]['ToMobileNumber']) == to_mobile_number:
@@ -337,8 +336,8 @@ class DB_CHECK:
         # Check for SMSContent
         sms_content = database.select("PBO.BATCH_OUTPUT_STATUS", "DELIVERY_CONTENT", condition)
         sms_content = DB_CHECK.simplify_text(sms_content)
-        print(sms_content)
-        sms_content = sms_content.replace('"','')
+        sms_content = sms_content.replace('"', '')
+        print("SMSContent from DB: {}".format(sms_content))
         print(str(b_outcome_temp[8]['SMSContent']))
         if str(b_outcome_temp[8]['SMSContent']) != "":
             if str(b_outcome_temp[8]['SMSContent']) == sms_content:
@@ -351,7 +350,7 @@ class DB_CHECK:
         # Check for FromAlias
         from_alias = database.select("PBO.BATCH_OUTPUT_STATUS", "SMS_ALIAS", condition)
         from_alias = DB_CHECK.simplify_text(from_alias)
-        print(from_alias)
+        print("from_alias from DB: {}".format(from_alias))
         print(str(b_outcome_temp[9]['FromAlias']))
         if str(b_outcome_temp[9]['FromAlias']) != "":
             if str(b_outcome_temp[9]['FromAlias']) == from_alias:
@@ -364,7 +363,7 @@ class DB_CHECK:
         # Check for Seed_List
         seed_list = database.select("PBO.BATCH_OUTPUT_STATUS", "SEED_LIST", condition)
         seed_list = DB_CHECK.simplify_text(seed_list)
-        print(seed_list)
+        print("Seed_List from DB: {}".format(seed_list))
         print(str(b_outcome_temp[10]['Seed_List']))
         if str(b_outcome_temp[10]['Seed_List']) != "":
             if str(b_outcome_temp[10]['Seed_List']) == seed_list:
@@ -374,11 +373,10 @@ class DB_CHECK:
         else:
             print("\nSEED LIST IS NULL\n")
 
-
         # Check for mgts_delivery_start_hr DELIVERY HOUR
         mgts_delivery_start_hr = database.select("PBO.BATCH_OUTPUT_STATUS", "mgts_delivery_start_hr", condition)
         mgts_delivery_start_hr = DB_CHECK.simplify_text(mgts_delivery_start_hr)
-        print(mgts_delivery_start_hr)
+        print("mgts_delivery_start_hr from DB: {}".format(mgts_delivery_start_hr))
         print(str(b_outcome_temp[11]['mgts_delivery_start_hr']))
         if str(b_outcome_temp[11]['mgts_delivery_start_hr']) != "":
             if str(b_outcome_temp[11]['mgts_delivery_start_hr']) == mgts_delivery_start_hr:
@@ -391,7 +389,7 @@ class DB_CHECK:
         # Check for ContentLanguage
         content_language = database.select("PBO.BATCH_OUTPUT_STATUS", "language_cd", condition)
         content_language = DB_CHECK.simplify_text(content_language)
-        print(content_language)
+        print("content_language from DB: {}".format(content_language))
         print(str(b_outcome_temp[12]["content_language"]))
         if str(b_outcome_temp[12]["content_language"]) != "":
             if str(b_outcome_temp[12]["content_language"]) == content_language:
@@ -404,7 +402,7 @@ class DB_CHECK:
         # Check for Valid Days
         valid_days = database.select("PBO.BATCH_OUTPUT_STATUS", "VALID_DAYS", condition)
         valid_days = DB_CHECK.simplify_text(valid_days)
-        print(valid_days)
+        print("valid_days from DB: {}".format(valid_days))
         print(str(b_outcome_temp[13]["VALID_DAYS"]))
         if str(b_outcome_temp[13]["VALID_DAYS"]) != "":
             if str(b_outcome_temp[13]["VALID_DAYS"]) == valid_days:
@@ -416,9 +414,9 @@ class DB_CHECK:
 
         # Check cmdCampaignID
         ih_cust_id = "'" + str(batch_output_data[0][3]) + "'"
-        condition_ih = "CUSTOMERID = "+ ih_cust_id
+        condition_ih = "CUSTOMERID = " + ih_cust_id
         ih_result = database.select("INTERACTION_HISTORY_V", "*", condition_ih)
-        print(ih_result)
+        print("ih_result from DB: {}".format(ih_result))
         if str(ih_result).__contains__(str(batch_output_data[0][3])):
             print("\nIH RECORD EXIST! PASSED!\n")
         else:
@@ -436,11 +434,22 @@ product_offer_outcome = [
      {"graph_prefix": "10050"}, {"CustomerID": ""},
      {"mgts_content_type": "881"}, {"MgtsSmsBudgetUnit": "9089"},
      {"IysId": "None"}, {"ToMobileNumber": "5555555555"},
-     {"SMSContent": "Faturalarinizin son odeme gununu dusunmeyin! Ticari kredi kartinizla Akbank Mobilden kolayca odeme talimati verin faturalariniz zamaninda odensin. Akbank Mobil : akbank.com/fatura-talimati Detayli bilgi: 444 25 25 Ucretsiz sms almak istemiyorsaniz smsistemiyorum yazip 8885e gonderebilirsiniz. Mersis:0015001526400497"},
+     {
+         "SMSContent": "Faturalarinizin son odeme gununu dusunmeyin! Ticari kredi kartinizla Akbank Mobil'den kolayca odeme talimati verin faturalariniz zamaninda odensin. Akbank Mobil : akbank.com/fatura-talimati Detayli bilgi: 444 25 25 Ucretsiz sms almak istemiyorsaniz smsistemiyorum yazip 8885e gonderebilirsiniz. Mersis:0015001526400497"},
      {"FromAlias": "AKBANK"}, {"Seed_List": "90034975|90031738|55552|55961"},
      {"mgts_delivery_start_hr": "10:00"}, {"content_language": "0"},
-     {"VALID_DAYS": "2"}
-     ]]
+     {"VALID_DAYS": "2"}, {"Treatment_Name": "TicariKartOFOKamp_SMS"}
+     ],
+    [{"bucket_name": "SMS-Phase1"},
+     {"graph_name": "KKSpotifyNetflixChipMilKmp_SMS"},
+     {"graph_prefix": "10054"}, {"CustomerID": ""},
+     {"mgts_content_type": "881"}, {"MgtsSmsBudgetUnit": "9089"},
+     {"IysId": "6547"}, {"ToMobileNumber": "5555555555"},
+     {
+         "SMSContent": "Spotify ve Netflix odemeleriniz icin 12.000'e varan Mil Puan Wings'ten. Aylik toplam 2.000 TL ve uzeri internet alisverisinize, ayni donemde Wings Private ile yapmis oldugunuz Spotify ve Netflix abonelik odemelerinizin her biri icin 6.000, toplam 12.000'e varan Mil Puan hediye! Hemen katilmak icin: www.wingscard.com.tr/7b80 Bilgi icin: www.wingscard.com.tr/a0aj Ucretsiz SMS'lerimizi almak istemiyorsaniz 'smsistemiyorum' yazip 8885'e gonderebilirsiniz. Mersis:0015001526400497"},
+     {"FromAlias": "WingsPrivate"}, {"Seed_List": "90034975|90031738|55552|55961"},
+     {"mgts_delivery_start_hr": "10:00"}, {"content_language": "0"},
+     {"VALID_DAYS": "10"}, {"Treatment_Name": "KKSpotifyNetflixChipMilKmp_SMS"}]]
 
 
 def return_cust_id_from_prefix(prefix):
@@ -453,6 +462,9 @@ def return_cust_id_from_prefix(prefix):
 
 
 def sms_check_operations():
+    create_folder()
+    pega.login_page()
+    count = 0
     # Creating Datas
     for b_outcome in product_offer_outcome:
         bucket_name_tmp = str(b_outcome[0]['bucket_name'])
@@ -462,14 +474,16 @@ def sms_check_operations():
         creating_datas(bucket_name_tmp, graph_name_tmp)
 
         primary_customer_id_tmp = return_cust_id_from_prefix(prefix1_tmp)
-        b_outcome[3]['CustomerID'] = primary_customer_id_tmp
+        product_offer_outcome[count][3]['CustomerID'] = primary_customer_id_tmp
         print(primary_customer_id_tmp)
+        count += 1
 
     # Running Batch
     running_ui()
 
     for b_outcome in product_offer_outcome:
         customer_id = b_outcome[3]['CustomerID']
+        print(customer_id)
         database_check_sms(customer_id, b_outcome)
 
 
@@ -479,8 +493,6 @@ def change_web_window(window):
 
 
 def creating_datas(bucketName, graphName):
-    create_folder()
-    pega.login_page()
     stf.navigate_stf()
     window_before = chrome.driver.window_handles[0]
     window_after = chrome.driver.window_handles[1]
