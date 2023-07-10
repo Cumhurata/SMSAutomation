@@ -279,7 +279,7 @@ class DB_CHECK:
         return text
 
     @staticmethod
-    def simplfy_text_sms_content(text):
+    def simplify_text_sms_content(text):
         text = str(text).replace("(", "")
         text = str(text).replace(")", "")
         text = str(text).replace("[", "")
@@ -354,7 +354,7 @@ class DB_CHECK:
 
         # Check for SMSContent
         sms_content = database.select("PBO.BATCH_OUTPUT_STATUS", "DELIVERY_CONTENT", condition2)
-        sms_content = DB_CHECK.simplfy_text_sms_content(sms_content)
+        sms_content = DB_CHECK.simplify_text_sms_content(sms_content)
         print("SMSContent from DB: {}".format(sms_content))
         print(str(b_outcome_temp[8]['SMSContent']))
         if str(b_outcome_temp[8]['SMSContent']) != "":
